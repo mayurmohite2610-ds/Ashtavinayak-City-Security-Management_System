@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Boss Dashboard - Ashtavinayak City</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 250px;
+            height: 100vh;
+
+            background: #111;
+
+            padding-top: 25px;
+        }
+
+        .society-title {
+            color: #f57c00;
+
+            text-align: center;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            padding: 0 10px 5px;
+        }
+
+        .boss-title {
+            color: white;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin: 5px 12px;
+        }
+
+        .menu a {
+            display: block;
+
+            padding: 14px 18px;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+        .menu a:hover {
+            background: #292929;
+        }
+
+        .menu a.active {
+            background: #f57c00;
+
+            color: white;
+
+            font-weight: bold;
+        }
+
+        /* ================= LOGOUT ================= */
+
+        .logout {
+            position: absolute;
+
+            bottom: 25px;
+
+            left: 12px;
+
+            right: 12px;
+        }
+
+        .logout a {
+            display: block;
+
+            text-align: center;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            background: #333;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .logout a:hover {
+            background: #444;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 30px;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+        .welcome {
+            color: #666;
+
+            margin-bottom: 25px;
+        }
+
+        /* ================= CARDS ================= */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            color: #666;
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+        /* ================= SECURITY CARDS ================= */
+
+        .security-cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .security-card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+
+            border-left: 5px solid #f57c00;
+        }
+
+        .security-name {
+            font-size: 17px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .security-count {
+            font-size: 25px;
+
+            font-weight: bold;
+
+            color: #f57c00;
+        }
+
+        .security-description {
+            color: #777;
+
+            font-size: 12px;
+
+            margin-top: 5px;
+        }
+
+        /* ================= TABLE BOX ================= */
+
+        .table-box {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .table-title {
+            font-size: 22px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            min-width: 1700px;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #87ceeb;
+
+            color: #222;
+
+            padding: 13px;
+
+            text-align: left;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 13px;
+
+            border-bottom: 1px solid #eee;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+        tr:hover {
+            background: #f8f8f8;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .inside {
+            background: #d4edda;
+
+            color: #155724;
+        }
+
+        .exited {
+            background: #e2e3e5;
+
+            color: #383d41;
+        }
+
+        .pending {
+            background: #fff3cd;
+
+            color: #856404;
+        }
+
+        .rejected {
+            background: #f8d7da;
+
+            color: #721c24;
+        }
+
+        /* ================= SECURITY BADGE ================= */
+
+        .security-badge {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 6px;
+
+            background: #f1f1f1;
+
+            font-weight: bold;
+
+            font-size: 12px;
+        }
+
+        /* ================= INFO ================= */
+
+        .info-box {
+            margin-top: 25px;
+
+            background: #eef8fc;
+
+            border-left: 5px solid #87ceeb;
+
+            padding: 16px;
+
+            border-radius: 8px;
+
+            line-height: 1.7;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 40px;
+
+            color: #777;
+
+            font-size: 16px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .cards {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .security-cards {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+            }
+
+            .logout {
+                position: relative;
+
+                bottom: auto;
+
+                left: auto;
+
+                right: auto;
+
+                margin: 15px 12px;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .main {
+                padding: 15px;
+            }
+
+            .cards {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .table-box {
+                padding: 18px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
+
+<div class="sidebar">
+
+    <div class="society-title">
+
+        Ashtavinayak City
+
+    </div>
+
+
+    <div class="boss-title">
+
+        Boss Panel
+
+    </div>
+
+
+    <ul class="menu">
+
+        <!-- ACTIVE -->
+
+        <li>
+
+            <a
+                href="{{ url_for('boss') }}"
+                class="active"
+            >
+
+                Dashboard
+
+            </a>
+
+        </li>
+
+    </ul>
+
+
+    <!-- LOGOUT -->
+
+    <div class="logout">
+
+        <a href="{{ url_for('logout') }}">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<div class="main">
+
+
+    <div class="page-title">
+
+        Boss Dashboard
+
+    </div>
+
+
+    <div class="welcome">
+
+        Welcome,
+        <strong>{{ session.get("display_name", "Vasudev Krishna") }}</strong>
+
+    </div>
+
+
+    <!-- =================================================
+         SUMMARY CARDS
+    ================================================== -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <div class="card-title">
+
+                Total Visitors
+
+            </div>
+
+            <div class="card-value">
+
+                {{ total }}
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+
+                Currently Inside
+
+            </div>
+
+            <div class="card-value">
+
+                {{ inside }}
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+
+                Exited
+
+            </div>
+
+            <div class="card-value">
+
+                {{ exited }}
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+
+                Rejected
+
+            </div>
+
+            <div class="card-value">
+
+                {{ rejected }}
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         SECURITY STATISTICS
+    ================================================== -->
+
+    <div class="security-cards">
+
+
+        <div class="security-card">
+
+            <div class="security-name">
+
+                Arjun
+
+            </div>
+
+            <div class="security-count">
+
+                {{ arjun }}
+
+            </div>
+
+            <div class="security-description">
+
+                Visitors registered during Arjun's duty
+
+            </div>
+
+        </div>
+
+
+        <div class="security-card">
+
+            <div class="security-name">
+
+                Duryodhan
+
+            </div>
+
+            <div class="security-count">
+
+                {{ duryodhan }}
+
+            </div>
+
+            <div class="security-description">
+
+                Visitors registered during Duryodhan's duty
+
+            </div>
+
+        </div>
+
+
+        <div class="security-card">
+
+            <div class="security-name">
+
+                Sakuni
+
+            </div>
+
+            <div class="security-count">
+
+                {{ sakuni }}
+
+            </div>
+
+            <div class="security-description">
+
+                Visitors registered during Sakuni's duty
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         COMPLETE VISITOR REPORT
+    ================================================== -->
+
+    <div class="table-box">
+
+
+        <div class="table-title">
+
+            Complete Visitor Report
+
+        </div>
+
+
+        {% if visitors %}
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Mobile
+                        </th>
+
+                        <th>
+                            Flat
+                        </th>
+
+                        <th>
+                            Purpose
+                        </th>
+
+                        <th>
+                            Person to Meet
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Entry Time
+                        </th>
+
+                        <th>
+                            Entry Security
+                        </th>
+
+                        <th>
+                            Exit Time
+                        </th>
+
+                        <th>
+                            Exit Security
+                        </th>
+
+                        <th>
+                            Approval Time
+                        </th>
+
+                        <th>
+                            Rejection Time
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for visitor in visitors %}
+
+
+                    <tr>
+
+
+                        <!-- NAME -->
+
+                        <td>
+
+                            {{ visitor["name"] }}
+
+                        </td>
+
+
+                        <!-- MOBILE -->
+
+                        <td>
+
+                            {{ visitor["mobile"] }}
+
+                        </td>
+
+
+                        <!-- FLAT -->
+
+                        <td>
+
+                            {{ visitor["flat"] }}
+
+                        </td>
+
+
+                        <!-- PURPOSE -->
+
+                        <td>
+
+                            {{ visitor["purpose"] }}
+
+                        </td>
+
+
+                        <!-- PERSON TO MEET -->
+
+                        <td>
+
+                            {{ visitor["person_to_meet"] }}
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+
+                            {% if visitor["status"] == "Inside" %}
+
+                                <span class="status inside">
+
+                                    Inside
+
+                                </span>
+
+
+                            {% elif visitor["status"] == "Exited" %}
+
+                                <span class="status exited">
+
+                                    Exited
+
+                                </span>
+
+
+                            {% elif visitor["status"] == "Rejected" %}
+
+                                <span class="status rejected">
+
+                                    Rejected
+
+                                </span>
+
+
+                            {% else %}
+
+                                <span class="status pending">
+
+                                    {{ visitor["status"] }}
+
+                                </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <!-- ENTRY TIME -->
+
+                        <td>
+
+                            {{ visitor["entry_time"] or "-" }}
+
+                        </td>
+
+
+                        <!-- ENTRY SECURITY -->
+
+                        <td>
+
+
+                            {% if visitor["entry_security"] %}
+
+                                <span class="security-badge">
+
+                                    {{ visitor["entry_security"]|capitalize }}
+
+                                </span>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <!-- EXIT TIME -->
+
+                        <td>
+
+                            {{ visitor["exit_time"] or "-" }}
+
+                        </td>
+
+
+                        <!-- EXIT SECURITY -->
+
+                        <td>
+
+
+                            {% if visitor["exit_security"] %}
+
+                                <span class="security-badge">
+
+                                    {{ visitor["exit_security"]|capitalize }}
+
+                                </span>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <!-- APPROVAL TIME -->
+
+                        <td>
+
+                            {{ visitor["approval_time"] or "-" }}
+
+                        </td>
+
+
+                        <!-- REJECTION TIME -->
+
+                        <td>
+
+                            {{ visitor["rejection_time"] or "-" }}
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty">
+
+            No visitor records available.
+
+        </div>
+
+
+        {% endif %}
+
+
+        <!-- =================================================
+             INFORMATION
+        ================================================== -->
+
+        <div class="info-box">
+
+            <strong>
+                Boss Monitoring:
+            </strong>
+
+            This dashboard allows
+            <strong>Vasudev Krishna</strong>
+            to monitor visitor activity in
+            Ashtavinayak City.
+
+            <br>
+
+            The report keeps
+            <strong>Entry Security</strong>
+            and
+            <strong>Exit Security</strong>
+            separately.
+
+            <br>
+
+            Example:
+
+            If a visitor enters while
+            <strong>Duryodhan</strong>
+            is on duty and exits while
+            <strong>Sakuni</strong>
+            is on duty, the report will show:
+
+            <br>
+
+            <strong>
+                Entry Security = Duryodhan
+            </strong>
+
+            <br>
+
+            <strong>
+                Exit Security = Sakuni
+            </strong>
+
+            <br>
+
+            Therefore, the boss can determine which security
+            guard was responsible for the visitor's entry
+            and which guard recorded the exit.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
