@@ -1,0 +1,818 @@
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+
+/* =====================================================
+   LOGIN PAGE
+===================================================== */
+
+.login-body {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #374151
+        );
+
+}
+
+
+.login-box {
+
+    width: 420px;
+
+    background: white;
+
+    padding: 45px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.30);
+
+    text-align: center;
+
+}
+
+
+.society-icon {
+
+    font-size: 42px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.login-box h1 {
+
+    font-size: 30px;
+
+    color: #111827;
+
+    margin-bottom: 8px;
+
+}
+
+
+.login-box h2 {
+
+    font-size: 19px;
+
+    color: #f97316;
+
+    margin-bottom: 30px;
+
+}
+
+
+.login-box label {
+
+    display: block;
+
+    text-align: left;
+
+    font-weight: bold;
+
+    margin-top: 16px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.login-box input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+}
+
+
+.login-box input:focus {
+
+    outline: none;
+
+    border-color: #f97316;
+
+    box-shadow:
+        0 0 0 2px rgba(249, 115, 22, 0.15);
+
+}
+
+
+.login-box button {
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #f97316;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.login-box button:hover {
+
+    background: #ea580c;
+
+}
+
+
+.login-footer {
+
+    margin-top: 25px;
+
+    font-size: 13px;
+
+    color: #6b7280;
+
+}
+
+
+/* =====================================================
+   ERROR MESSAGE
+===================================================== */
+
+.error {
+
+    background: #fee2e2;
+
+    color: #991b1b;
+
+    padding: 11px;
+
+    border-radius: 7px;
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+nav {
+
+    min-height: 70px;
+
+    background: #111827;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 30px;
+
+    gap: 8px;
+
+}
+
+
+nav h2 {
+
+    margin-right: auto;
+
+    font-size: 21px;
+
+    color: white;
+
+}
+
+
+/* Normal navigation links */
+
+nav a {
+
+    color: #d1d5db;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    padding: 12px 16px;
+
+    border-radius: 7px;
+
+    transition: 0.2s;
+
+}
+
+
+/* Hover */
+
+nav a:hover {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+
+/* =====================================================
+   ACTIVE SECTION
+===================================================== */
+
+/*
+   The currently opened section becomes ORANGE.
+*/
+
+nav a.active {
+
+    background: #f97316;
+
+    color: white;
+
+    font-weight: bold;
+
+}
+
+
+nav a.active:hover {
+
+    background: #ea580c;
+
+    color: white;
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+.logout-btn {
+
+    margin-left: 10px;
+
+    background: #dc2626 !important;
+
+    color: white !important;
+
+}
+
+
+.logout-btn:hover {
+
+    background: #b91c1c !important;
+
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+
+    max-width: 1300px;
+
+    margin: auto;
+
+    padding: 40px;
+
+}
+
+
+.container h1 {
+
+    font-size: 30px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.container h2 {
+
+    margin-bottom: 20px;
+
+}
+
+
+.welcome {
+
+    color: #6b7280;
+
+    margin-bottom: 30px;
+
+}
+
+
+/* =====================================================
+   DASHBOARD CARDS
+===================================================== */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 20px;
+
+}
+
+
+.card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 15px rgba(0, 0, 0, 0.08);
+
+    border-left: 5px solid #f97316;
+
+}
+
+
+.card h3 {
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.card p {
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    color: #111827;
+
+}
+
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-title {
+
+    margin-top: 40px;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-box {
+
+    background: white;
+
+    max-width: 650px;
+
+    padding: 35px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 15px rgba(0, 0, 0, 0.08);
+
+}
+
+
+.form-box label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-top: 15px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.form-box input,
+.form-box select {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+}
+
+
+.form-box input:focus,
+.form-box select:focus {
+
+    outline: none;
+
+    border-color: #f97316;
+
+}
+
+
+.form-box button {
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #f97316;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.form-box button:hover {
+
+    background: #ea580c;
+
+}
+
+
+small {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #6b7280;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+table {
+
+    width: 100%;
+
+    background: white;
+
+    border-collapse: collapse;
+
+    box-shadow:
+        0 3px 15px rgba(0, 0, 0, 0.08);
+
+}
+
+
+table th {
+
+    background: #38bdf8;
+
+    color: white;
+
+    padding: 15px;
+
+    text-align: left;
+
+    font-weight: bold;
+
+}
+
+
+table td {
+
+    padding: 14px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+
+}
+
+
+table tr:hover {
+
+    background: #f8fafc;
+
+}
+
+
+/* =====================================================
+   VISITOR APPROVAL BOX
+===================================================== */
+
+.visitor-box {
+
+    background: white;
+
+    padding: 25px;
+
+    margin-bottom: 20px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.08);
+
+}
+
+
+.visitor-box h2 {
+
+    margin-bottom: 15px;
+
+}
+
+
+.visitor-box p {
+
+    margin: 8px 0;
+
+    color: #4b5563;
+
+}
+
+
+/* =====================================================
+   APPROVAL BUTTONS
+===================================================== */
+
+.approval-buttons {
+
+    margin-top: 20px;
+
+}
+
+
+.approve,
+.reject {
+
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+
+    margin-right: 10px;
+
+}
+
+
+.approve {
+
+    background: #16a34a;
+
+}
+
+
+.approve:hover {
+
+    background: #15803d;
+
+}
+
+
+.reject {
+
+    background: #dc2626;
+
+}
+
+
+.reject:hover {
+
+    background: #b91c1c;
+
+}
+
+
+/* =====================================================
+   EXIT BUTTON
+===================================================== */
+
+.exit-button {
+
+    display: inline-block;
+
+    background: #f97316;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 9px 15px;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+
+}
+
+
+.exit-button:hover {
+
+    background: #ea580c;
+
+}
+
+
+/* =====================================================
+   INFORMATION BOX
+===================================================== */
+
+.info {
+
+    background: #e0f2fe;
+
+    color: #075985;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =====================================================
+   EMPTY MESSAGE
+===================================================== */
+
+.empty-box {
+
+    background: white;
+
+    padding: 30px;
+
+    text-align: center;
+
+    border-radius: 10px;
+
+    color: #6b7280;
+
+}
+
+
+/* =====================================================
+   BOSS
+===================================================== */
+
+.boss-name {
+
+    color: #fbbf24;
+
+    font-weight: bold;
+
+    margin-right: 10px;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    nav {
+
+        height: auto;
+
+        padding: 15px;
+
+        flex-wrap: wrap;
+
+    }
+
+
+    nav h2 {
+
+        width: 100%;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .container {
+
+        padding: 20px;
+
+    }
+
+
+    table {
+
+        font-size: 12px;
+
+        overflow-x: auto;
+
+    }
+
+
+    table th,
+    table td {
+
+        padding: 9px;
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .login-box {
+
+        width: 90%;
+
+        padding: 30px 25px;
+
+    }
+
+
+    .login-box h1 {
+
+        font-size: 24px;
+
+    }
+
+}
