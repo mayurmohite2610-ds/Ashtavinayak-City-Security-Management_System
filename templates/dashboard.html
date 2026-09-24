@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Ashtavinayak City</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* =================================================
+           SIDEBAR
+           ================================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111;
+            padding-top: 25px;
+        }
+
+        .society-title {
+            color: #f57c00;
+            text-align: center;
+            font-size: 21px;
+            font-weight: bold;
+            padding: 0 10px 5px;
+        }
+
+        .security-title {
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin: 5px 12px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 14px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #292929;
+        }
+
+        /* ACTIVE SECTION */
+        .menu a.active {
+            background: #f57c00;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* LOGOUT */
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 12px;
+            right: 12px;
+        }
+
+        .logout a {
+            display: block;
+            text-align: center;
+            padding: 13px;
+            border-radius: 8px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logout a:hover {
+            background: #444;
+        }
+
+        /* =================================================
+           MAIN CONTENT
+           ================================================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .security-user {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .security-user span {
+            font-weight: bold;
+            color: #f57c00;
+        }
+
+        /* =================================================
+           STATISTICS CARDS
+           ================================================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        /* =================================================
+           CONTENT BOX
+           ================================================= */
+
+        .content-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .content-box h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        /* =================================================
+           TABLE
+           ================================================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #87ceeb;
+            color: #222;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8f8f8;
+        }
+
+        /* =================================================
+           STATUS
+           ================================================= */
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .inside {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .exited {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* =================================================
+           EMPTY MESSAGE
+           ================================================= */
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+        }
+
+        /* =================================================
+           RESPONSIVE
+           ================================================= */
+
+        @media (max-width: 1100px) {
+
+            .cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .logout {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                margin: 15px 12px;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .topbar {
+                display: block;
+            }
+
+            .security-user {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+     ====================================================== -->
+
+<div class="sidebar">
+
+    <div class="society-title">
+        Ashtavinayak City
+    </div>
+
+    <div class="security-title">
+        Society Security
+    </div>
+
+    <ul class="menu">
+
+        <!-- DASHBOARD ACTIVE -->
+        <li>
+            <a href="{{ url_for('dashboard') }}" class="active">
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('register') }}">
+                Register Visitor
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('approval') }}">
+                Approval
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('exit_page') }}">
+                Exit
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('history') }}">
+                History Report
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('add_resident') }}">
+                Add Residence
+            </a>
+        </li>
+
+    
+<li><a href="{{ url_for('remove_resident') }}">Remove Residents</a></li>
+</ul>
+
+    <!-- LOGOUT -->
+
+    </ul>
+
+    <!-- LOGOUT -->
+    <div class="logout">
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+     ====================================================== -->
+
+<div class="main">
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="page-title">
+            Dashboard
+        </div>
+
+        <div class="security-user">
+
+            Logged in as:
+
+            <span>
+                {{ security_display_name }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         STATISTICS
+         ================================================== -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-title">
+                Total Visitors
+            </div>
+
+            <div class="card-number">
+                {{ total }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Pending Approval
+            </div>
+
+            <div class="card-number">
+                {{ pending }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Currently Inside
+            </div>
+
+            <div class="card-number">
+                {{ inside }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Exited
+            </div>
+
+            <div class="card-number">
+                {{ exited }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Rejected
+            </div>
+
+            <div class="card-number">
+                {{ rejected }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         CURRENTLY INSIDE
+         ================================================== -->
+
+    <div class="content-box">
+
+        <h2>
+            Visitors Currently Inside
+        </h2>
+
+        <div class="table-container">
+
+            {% if current_inside %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Mobile</th>
+
+                        <th>Flat</th>
+
+                        <th>Purpose</th>
+
+                        <th>Person to Meet</th>
+
+                        <th>Entry Time</th>
+
+                        <th>Entry Security</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for visitor in current_inside %}
+
+                    <tr>
+
+                        <td>
+                            {{ visitor["name"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["mobile"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["flat"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["purpose"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["person_to_meet"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["entry_time"] or "-" }}
+                        </td>
+
+                        <td>
+                            {{ visitor["entry_security"] or "-" }}
+                        </td>
+
+                        <td>
+
+                            <span class="status inside">
+                                Inside
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No visitors are currently inside the society.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         RECENT VISITORS
+         ================================================== -->
+
+    <div class="content-box">
+
+        <h2>
+            Recent Visitors
+        </h2>
+
+        <div class="table-container">
+
+            {% if recent_visitors %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Mobile</th>
+
+                        <th>Flat</th>
+
+                        <th>Purpose</th>
+
+                        <th>Person to Meet</th>
+
+                        <th>Status</th>
+
+                        <th>Entry Security</th>
+
+                        <th>Exit Security</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for visitor in recent_visitors %}
+
+                    <tr>
+
+                        <td>
+                            {{ visitor["name"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["mobile"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["flat"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["purpose"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["person_to_meet"] }}
+                        </td>
+
+                        <td>
+
+                            {% if visitor["status"] == "Pending" %}
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+                            {% elif visitor["status"] == "Inside" %}
+
+                                <span class="status inside">
+                                    Inside
+                                </span>
+
+                            {% elif visitor["status"] == "Exited" %}
+
+                                <span class="status exited">
+                                    Exited
+                                </span>
+
+                            {% elif visitor["status"] == "Rejected" %}
+
+                                <span class="status rejected">
+                                    Rejected
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ visitor["entry_security"] or "-" }}
+                        </td>
+
+                        <td>
+                            {{ visitor["exit_security"] or "-" }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No visitor records found.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
