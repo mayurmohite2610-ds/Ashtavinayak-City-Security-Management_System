@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Exit - Ashtavinayak City</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111;
+            padding-top: 25px;
+        }
+
+        .society-title {
+            color: #f57c00;
+            text-align: center;
+            font-size: 21px;
+            font-weight: bold;
+            padding: 0 10px 5px;
+        }
+
+        .security-title {
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin: 5px 12px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 14px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .menu a:hover {
+            background: #292929;
+        }
+
+        .menu a.active {
+            background: #f57c00;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* ================= LOGOUT ================= */
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 12px;
+            right: 12px;
+        }
+
+        .logout a {
+            display: block;
+            text-align: center;
+            padding: 13px;
+            border-radius: 8px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logout a:hover {
+            background: #444;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* ================= CONTENT BOX ================= */
+
+        .content-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .content-box h2 {
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-container {
+            margin-bottom: 22px;
+        }
+
+        .search-label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #777;
+            pointer-events: none;
+        }
+
+        #visitorSearch {
+            width: 100%;
+            padding: 14px 45px 14px 45px;
+            border: 2px solid #ddd;
+            border-radius: 9px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #visitorSearch:focus {
+            border-color: #f57c00;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #777;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+            padding: 5px;
+        }
+
+        .clear-search:hover {
+            color: #222;
+        }
+
+        .search-hint {
+            margin-top: 8px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* ================= SEARCH RESULT COUNT ================= */
+
+        .result-count {
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 14px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1100px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #87ceeb;
+            color: #222;
+            padding: 13px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: #f8f8f8;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* ================= EXIT BUTTON ================= */
+
+        .exit-button {
+            display: inline-block;
+            padding: 9px 15px;
+            background: #f57c00;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .exit-button:hover {
+            background: #e66f00;
+        }
+
+        /* ================= NO SEARCH RESULT ================= */
+
+        .no-search-result {
+            display: none;
+            text-align: center;
+            padding: 35px;
+            color: #777;
+            font-size: 16px;
+        }
+
+        /* ================= INFO BOX ================= */
+
+        .info-box {
+            margin-top: 25px;
+            background: #eef8fc;
+            border-left: 5px solid #87ceeb;
+            padding: 16px;
+            border-radius: 8px;
+            line-height: 1.7;
+        }
+
+        .info-box strong {
+            color: #222;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+            font-size: 16px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .logout {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                margin: 15px 12px;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .main {
+                padding: 15px;
+            }
+
+            .content-box {
+                padding: 18px;
+            }
+
+            .page-title {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+     ====================================================== -->
+
+<div class="sidebar">
+
+    <div class="society-title">
+        Ashtavinayak City
+    </div>
+
+    <div class="security-title">
+        Society Security
+    </div>
+
+    <ul class="menu">
+
+        <li>
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('register') }}">
+                Register Visitor
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('approval') }}">
+                Approval
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('exit_page') }}" class="active">
+                Exit
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('history') }}">
+                History Report
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('add_resident') }}">
+                Add Residence
+            </a>
+        </li>
+
+    
+<li><a href="{{ url_for('remove_resident') }}">Remove Residents</a></li>
+</ul>
+
+    <!-- LOGOUT -->
+    <div class="logout">
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+     ====================================================== -->
+
+<div class="main">
+
+    <div class="page-title">
+        Visitor Exit
+    </div>
+
+    <div class="page-description">
+        Only the logged-in Security guard can record a visitor exit.
+    </div>
+
+
+    <div class="content-box">
+
+        <h2>
+            Visitors Currently Inside
+        </h2>
+
+
+        {% if visitors %}
+
+        <!-- =================================================
+             SEARCH BAR
+             ================================================== -->
+
+        <div class="search-container">
+
+            <label class="search-label" for="visitorSearch">
+                Search Visitor
+            </label>
+
+            <div class="search-wrapper">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="text"
+                    id="visitorSearch"
+                    placeholder="Search by flat, visitor name, mobile, purpose..."
+                    autocomplete="off"
+                >
+
+                <button
+                    type="button"
+                    id="clearSearch"
+                    class="clear-search"
+                    title="Clear search">
+                    ×
+                </button>
+
+            </div>
+
+            <div class="search-hint">
+                Example: <strong>A-101</strong>, <strong>C-111</strong>,
+                visitor name, or mobile number.
+            </div>
+
+        </div>
+
+
+        <div id="resultCount" class="result-count"></div>
+
+
+        <!-- =================================================
+             TABLE
+             ================================================== -->
+
+        <div class="table-container">
+
+            <table id="visitorTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Visitor Name
+                        </th>
+
+                        <th>
+                            Mobile
+                        </th>
+
+                        <th>
+                            Flat
+                        </th>
+
+                        <th>
+                            Purpose
+                        </th>
+
+                        <th>
+                            Person to Meet
+                        </th>
+
+                        <th>
+                            Entry Time
+                        </th>
+
+                        <th>
+                            Entry Security
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="visitorTableBody">
+
+                    {% for visitor in visitors %}
+
+                    <tr class="visitor-row"
+                        data-search="
+                            {{ visitor['name']|default('') }}
+                            {{ visitor['mobile']|default('') }}
+                            {{ visitor['flat']|default('') }}
+                            {{ visitor['purpose']|default('') }}
+                            {{ visitor['person_to_meet']|default('') }}
+                            {{ visitor['entry_security']|default('') }}
+                        ">
+
+                        <td>
+                            {{ visitor["name"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["mobile"] }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ visitor["flat"] }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ visitor["purpose"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["person_to_meet"] }}
+                        </td>
+
+                        <td>
+                            {{ visitor["entry_time"] or "-" }}
+                        </td>
+
+                        <td>
+                            {{ visitor["entry_security"]|capitalize }}
+                        </td>
+
+                        <td>
+
+                            <span class="status">
+                                Inside
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <form
+                                method="POST"
+                                action="{{ url_for('mark_exit', id=visitor['id']) }}"
+                                style="margin:0;"
+                                onsubmit="return confirm('Confirm that this visitor has exited the society?');">
+
+                                <button
+                                    type="submit"
+                                    class="exit-button">
+
+                                    Mark Exit
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- NO SEARCH MATCH -->
+
+        <div id="noSearchResult" class="no-search-result">
+
+            🔍 No visitor found matching your search.
+
+            <br><br>
+
+            Try another flat number, visitor name, or mobile number.
+
+        </div>
+
+
+        {% else %}
+
+        <div class="empty">
+
+            No visitors are currently inside the society.
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             INFORMATION
+             ================================================== -->
+
+        <div class="info-box">
+
+            <strong>Exit Tracking — Security Only</strong>
+
+            <br>
+
+            When a visitor exits, the currently logged-in
+            security guard is recorded as the
+            <strong>Exit Security</strong>.
+
+            <br>
+
+            Example:
+
+            <br>
+
+            Visitor enters while
+            <strong>Duryodhan</strong> is on duty.
+
+            <br>
+
+            Later, Duryodhan's duty ends and
+            <strong>Sakuni</strong> starts duty.
+
+            <br>
+
+            If Sakuni records the exit, the history will show:
+
+            <br>
+
+            <strong>Entry Security:</strong> Duryodhan
+
+            <br>
+
+            <strong>Exit Security:</strong> Sakuni
+
+            <br>
+
+            Only Security can mark the exit. Residents cannot
+            mark a visitor exit. The original entry information
+            is not overwritten.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SEARCH JAVASCRIPT
+     ====================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput = document.getElementById("visitorSearch");
+    const clearButton = document.getElementById("clearSearch");
+    const resultCount = document.getElementById("resultCount");
+    const noSearchResult = document.getElementById("noSearchResult");
+
+    if (!searchInput) {
+        return;
+    }
+
+    const rows = Array.from(
+        document.querySelectorAll(".visitor-row")
+    );
+
+
+    function performSearch() {
+
+        const searchText = searchInput.value
+            .trim()
+            .toLowerCase();
+
+        let visibleCount = 0;
+
+
+        rows.forEach(function (row) {
+
+            const searchableText = (
+                row.dataset.search || ""
+            ).toLowerCase();
+
+
+            if (
+                searchText === "" ||
+                searchableText.includes(searchText)
+            ) {
+
+                row.style.display = "";
+
+                visibleCount++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        /* Show / hide clear button */
+
+        if (searchText !== "") {
+
+            clearButton.style.display = "block";
+
+        } else {
+
+            clearButton.style.display = "none";
+
+        }
+
+
+        /* Result count */
+
+        if (searchText !== "") {
+
+            resultCount.style.display = "block";
+
+            if (visibleCount === 1) {
+
+                resultCount.textContent =
+                    "1 visitor found.";
+
+            } else {
+
+                resultCount.textContent =
+                    visibleCount + " visitors found.";
+
+            }
+
+        } else {
+
+            resultCount.style.display = "none";
+
+        }
+
+
+        /* No results */
+
+        if (
+            searchText !== "" &&
+            visibleCount === 0
+        ) {
+
+            noSearchResult.style.display = "block";
+
+        } else {
+
+            noSearchResult.style.display = "none";
+
+        }
+
+    }
+
+
+    /* Search while typing */
+
+    searchInput.addEventListener(
+        "input",
+        performSearch
+    );
+
+
+    /* Clear search */
+
+    clearButton.addEventListener(
+        "click",
+        function () {
+
+            searchInput.value = "";
+
+            performSearch();
+
+            searchInput.focus();
+
+        }
+    );
+
+
+    /* ESC key clears search */
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                searchInput.value = "";
+
+                performSearch();
+
+            }
+
+        }
+    );
+
+});
+
+</script>
+
+</body>
+</html>
