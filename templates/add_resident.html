@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Residence - {{ society_name }}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f6f8;color:#222}
+.sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;background:#111;padding-top:25px}
+.society-title{color:#f57c00;text-align:center;font-size:21px;font-weight:bold;padding:0 10px 5px}
+.security-title{color:white;text-align:center;font-size:14px;margin-bottom:30px}
+.menu{list-style:none}.menu li{margin:5px 12px}.menu a{display:block;padding:14px 18px;color:white;text-decoration:none;border-radius:8px;font-size:16px}.menu a:hover{background:#292929}.menu a.active{background:#f57c00;color:white;font-weight:bold}
+.logout{position:absolute;bottom:25px;left:12px;right:12px}.logout a{display:block;text-align:center;padding:13px;border-radius:8px;background:#333;color:white;text-decoration:none;font-weight:bold}.logout a:hover{background:#444}
+.main{margin-left:240px;padding:30px}.page-title{font-size:30px;font-weight:bold;margin-bottom:8px}.page-description{color:#666;margin-bottom:25px}
+.form-box{max-width:900px;background:white;padding:30px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.08)}.form-title{font-size:22px;font-weight:bold;margin-bottom:25px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.form-group{display:flex;flex-direction:column}.full-width{grid-column:1/3}
+label{font-weight:bold;margin-bottom:8px;color:#333}input,select{width:100%;padding:13px;border:1px solid #ccc;border-radius:8px;font-size:15px;outline:none;background:white}input:focus,select:focus{border-color:#f57c00}
+.phone-row{display:grid;grid-template-columns:150px 1fr;gap:10px}.help-text{margin-top:6px;color:#777;font-size:12px}.flat-preview{margin-top:8px;color:#555;font-size:13px;font-weight:bold}
+.error{background:#ffe5e5;color:#c62828;border:1px solid #ef9a9a;padding:12px;border-radius:8px;margin-bottom:20px}.success{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;padding:14px;border-radius:8px;margin-bottom:20px}
+.submit-area{margin-top:25px}.submit-button{width:100%;padding:14px;border:none;border-radius:8px;background:#f57c00;color:white;font-size:17px;font-weight:bold;cursor:pointer}.submit-button:hover{background:#e66f00}
+.telegram-box{margin-top:20px;background:#eef8fc;border-left:5px solid #87ceeb;padding:16px;border-radius:8px;line-height:1.6}.telegram-link{display:inline-block;margin-top:10px;background:#229ed9;color:white;text-decoration:none;padding:10px 14px;border-radius:7px;font-weight:bold;word-break:break-all}.notice{margin-top:20px;color:#666;font-size:13px;line-height:1.6}
+@media(max-width:800px){.sidebar{position:relative;width:100%;height:auto}.logout{position:relative;bottom:auto;left:auto;right:auto;margin:15px 12px}.main{margin-left:0}.form-grid{grid-template-columns:1fr}.full-width{grid-column:auto}.phone-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<div class="society-title">{{ society_name }}</div><div class="security-title">Society Security</div>
+<ul class="menu">
+<li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+<li><a href="{{ url_for('register') }}">Register Visitor</a></li>
+<li><a href="{{ url_for('approval') }}">Approval</a></li>
+<li><a href="{{ url_for('exit_page') }}">Exit</a></li>
+<li><a href="{{ url_for('history') }}">History Report</a></li>
+<li><a href="{{ url_for('add_resident') }}" class="active">Add Residence</a></li>
+
+<li><a href="{{ url_for('remove_resident') }}">Remove Residents</a></li>
+</ul>
+
+    <!-- LOGOUT -->
+    <div class="logout"><a href="{{ url_for('logout') }}">Logout</a></div>
+</div>
+
+<div class="main">
+<div class="page-title">Add Residence</div>
+<div class="page-description">Add a new resident to {{ society_name }}.</div>
+<div class="form-box">
+<div class="form-title">Resident Information</div>
+{% if error %}<div class="error">{{ error }}</div>{% endif %}
+{% if success %}<div class="success">{{ success }}</div>{% endif %}
+
+<form method="POST" action="{{ url_for('add_resident') }}" id="residentForm">
+<div class="form-grid">
+<div class="form-group full-width">
+<label for="name">Resident Name</label>
+<input id="name" name="name" type="text" value="{{ form_data.get('name','') }}" placeholder="Enter resident name" required>
+</div>
+
+<div class="form-group">
+<label for="block">Block</label>
+<select id="block" name="block" required>
+<option value="">Select Block</option>
+{% for b in blocks %}<option value="{{ b }}" {% if form_data.get('block','') == b %}selected{% endif %}>Block {{ b }}</option>{% endfor %}
+</select>
+</div>
+
+<div class="form-group">
+<label for="flat_number">Flat Number</label>
+<input id="flat_number" name="flat_number" type="text" inputmode="numeric" maxlength="4" value="{{ form_data.get('flat_number','') }}" placeholder="Example: 116" pattern="[0-9]{1,4}" required>
+<div class="flat-preview" id="flatPreview">Select a block and enter the flat number.</div>
+</div>
+
+<div class="form-group full-width">
+<label for="phone">Phone Number</label>
+<div class="phone-row">
+<select id="country_code" name="country_code" required>
+{% for code in country_codes %}<option value="{{ code }}" {% if form_data.get('country_code','+91') == code %}selected{% endif %}>{{ code }}</option>{% endfor %}
+</select>
+<input id="phone" name="phone" type="tel" inputmode="numeric" value="{{ form_data.get('phone','') }}" placeholder="Enter phone number" required>
+</div>
+<div class="help-text">Select country code (default +91) and enter the required number of digits.</div>
+</div>
+</div>
+
+<div class="submit-area"><button class="submit-button" type="submit">Add Residence</button></div>
+</form>
+
+{% if telegram_link %}
+<div class="telegram-box"><strong>Telegram Connection</strong><br>
+Share this link with the new resident. When they open it in Telegram, their selected residence will be connected and future visitor approval requests will come to that Telegram account.<br>
+<a class="telegram-link" href="{{ telegram_link }}" target="_blank" rel="noopener">Open Telegram Connection Link</a>
+</div>
+{% else %}
+<div class="notice"><strong>Telegram note:</strong> New residents need to open the Telegram connection link once. Existing connected residents do not need to reconnect.</div>
+{% endif %}
+</div></div>
+
+<script>
+const block=document.getElementById('block');
+const flat=document.getElementById('flat_number');
+const preview=document.getElementById('flatPreview');
+const phone=document.getElementById('phone');
+function updateFlatPreview(){
+  const b=block.value, n=flat.value.trim();
+  preview.textContent = b && n ? `Residence: ${b}-${n}` : 'Select a block and enter the flat number.';
+}
+block.addEventListener('change',updateFlatPreview);
+flat.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,4);updateFlatPreview();});
+phone.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');});
+updateFlatPreview();
+</script>
+</body></html>
